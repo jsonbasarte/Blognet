@@ -8,7 +8,7 @@ var connectionString = builder.Configuration.GetConnectionString("BlognetDbConte
 
 builder.Services.AddDbContext<BlognetDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<BlognetDbContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<BlognetDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
