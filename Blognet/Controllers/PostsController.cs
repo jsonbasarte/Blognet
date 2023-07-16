@@ -7,23 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Blognet.Data;
 using Blognet.Models;
+using Blognet.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blognet.Controllers
 {
     public class PostsController : Controller
     {
         private readonly BlognetDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PostsController(BlognetDbContext context)
+        public PostsController(BlognetDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Posts
+        // GET: Posts   
         public async Task<IActionResult> Index()
         {
+            //var posts = await _context.Posts.FindAsync(_userManager.GetUserId(this.User));
+            var results = new List<Post>();
+            var posts = await _context.Posts.Include(p => p.Category).Include(p => p.User).ToListAsync();
+            foreach (var post in posts)
+            {
+                if (post.UserId == _userManager.GetUserId(this.User))
+                {
+                    results.Add(post);
+                }
+            }
             var blognetDbContext = _context.Posts.Include(p => p.Category).Include(p => p.User);
-            return View(await blognetDbContext.ToListAsync());
+            return View(results);
         }
 
         // GET: Posts/Details/5

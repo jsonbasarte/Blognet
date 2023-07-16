@@ -43,8 +43,13 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+              <p>
+                  Already registered? <a class="nav-link" href="/Identity/Account/Login">
+                            Log In
+                </a>
+              </p>
         </form>
 
 @section Scripts {
-                <partial name="_ValidationScriptsPartial" />
+                    <partial name="_ValidationScriptsPartial" />
 }

@@ -18,5 +18,9 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: url(../paper-office.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
