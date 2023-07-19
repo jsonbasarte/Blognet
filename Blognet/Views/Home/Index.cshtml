@@ -1,11 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Blognet.Models.Post>
+
+@{
+    ViewData["Title"] = "BlogNet";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="p-2 d-flex">
+    <div class="flex-grow-1">
+            <h1 class="display-4">Welcome</h1>
     <p>To Blog Net</p>
+    <div class="overflow-auto" style="height: calc(78vh - 133px)">
+            @foreach (var item in Model)
+            {
+                    <div class="bg-white mt-2 p-3">
+                    <h1>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </h1>
+                   <p>
+                        @Html.DisplayFor(modelItem => item.Content)
+                   </p>
+                </div>
+            }
+    </div>
+
     <p>
     User Id: @ViewData["UserId"]
     </p>
+    </div>
+    <div class="w-25">
+            Recent Posts
+            <div class="bg-white p-2 mt-3">
+                <p>Recent post here</p>
+            </div>
+    </div>
 </div>
