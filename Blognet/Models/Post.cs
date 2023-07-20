@@ -11,7 +11,7 @@ namespace Blognet.Models
         public string Content { get; set; }
         public string Thumbnail { get; set; }
 
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public ApplicationUser? User { get; set; }
 
         public int CategoryId { get; set; }

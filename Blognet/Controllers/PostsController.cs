@@ -73,11 +73,20 @@ namespace Blognet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostId,Title,Content,Thumbnail,UserId,CategoryId")] Post post)
+        public async Task<IActionResult> Create([Bind("PostId,Title,Content,Thumbnail,CategoryId")] Post post)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(post);
+                var userId = _userManager.GetUserId(this.User);
+                var postParam = new Post
+                {
+                    UserId = userId,
+                    Title = post.Title,
+                    Content = post.Content,
+                    Thumbnail = post.Thumbnail,
+                    CategoryId= post.CategoryId,
+                };
+                _context.Add(postParam);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
