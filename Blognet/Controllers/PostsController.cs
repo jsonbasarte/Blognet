@@ -61,9 +61,12 @@ namespace Blognet.Controllers
         }
 
         // GET: Posts/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            List<Category> categories = await _context.Categories.ToListAsync();
+
+            ViewData["Categories"] = new SelectList(categories, "Id", "Name");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
@@ -73,7 +76,7 @@ namespace Blognet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostId,Title,Content,Thumbnail,CategoryId")] Post post)
+        public async Task<IActionResult> Create([Bind("PostId,Title,Content,CategoryId")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -83,12 +86,12 @@ namespace Blognet.Controllers
                     UserId = userId,
                     Title = post.Title,
                     Content = post.Content,
-                    Thumbnail = post.Thumbnail,
-                    CategoryId= post.CategoryId,
+                    CategoryId = post.CategoryId,
                 };
                 _context.Add(postParam);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect("/");
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", post.CategoryId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);

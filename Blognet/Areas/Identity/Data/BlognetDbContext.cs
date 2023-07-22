@@ -34,5 +34,9 @@ public class BlognetDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(p => p.Category)
             .WithMany(c => c.Posts)
             .HasForeignKey(p => p.CategoryId);
+
+        builder.Entity<Post>()
+            .Property(e => e.Thumbnail)
+            .IsRequired(false);
     }
 }
